@@ -1,6 +1,7 @@
 plugins {
     id 'org.jetbrains.kotlin.jvm' version "$kotlin_version"
     id 'org.jetbrains.kotlin.plugin.serialization' version "$kotlin_version"
+    id 'com.github.johnrengelman.shadow' version '7.0.0'
     id 'application'
 }
 
@@ -32,4 +33,11 @@ compileTestKotlin {
 
 application {
     mainClassName = 'com.jetbrains.handson.httpapi.ApplicationKt'
+}
+
+// Descomentar lo de abajo para armar el JAR
+shadowJar {
+    manifest {
+        attributes 'Main-Class': 'com.example.ApplicationKt'
+    }
 }
