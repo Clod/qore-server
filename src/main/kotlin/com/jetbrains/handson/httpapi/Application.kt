@@ -11,6 +11,7 @@ import routes.customerRouting
 
 fun main(args: Array<String>): Unit = io.ktor.server.tomcat.EngineMain.main(args)
 
+// La referencia en application.conf
 fun Application.module() {
     install(ContentNegotiation) {
         json()
