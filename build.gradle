@@ -36,8 +36,8 @@ application {
 }
 
 // Descomentar lo de abajo para armar el JAR
-shadowJar {
-    manifest {
-        attributes 'Main-Class': 'com.example.ApplicationKt'
-    }
-}
+//shadowJar {
+//    manifest {
+//        attributes 'Main-Class': 'com.example.ApplicationKt'
+//    }
+//}

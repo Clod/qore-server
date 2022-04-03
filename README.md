@@ -4,4 +4,17 @@
 
 # Creating an HTTP API with Ktor
 
-This repository is the code corresponding to the hands-on lab [Creating HTTP APIs](https://ktor.io/docs/creating-http-apis.html). 
+This repository is based on the code corresponding to the hands-on lab [Creating HTTP APIs](https://ktor.io/docs/creating-http-apis.html). 
+
+It has been modified to use SSL
+
+The location of the keystore file (named test.jks) con be overriden by defining the environmental variable JKS_PATH
+
+Windows:
+
+    PS> $Env:JKS_PATH="D:\home\Kotlin\ktor-http-api-sample-main\"
+
+Linux:
+
+    $ JKS_PATH=/home/clau (Creo una Shell variable)
+    $ export JKS_PATH (Creo el ENV variable)

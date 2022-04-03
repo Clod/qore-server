@@ -1,3 +1,20 @@
+Alta de Customer:
+
+curl -X POST 'https://vcsinc.com.ar:8443/customer' -H 'Content-Type: application/json' --data-binary '{"id":"999","firstName":"Jane","lastName":"Smith","email":"jane.smith@company.com"}'
+
+Borrar un customer:
+
+curl -X DELETE 'https://vcsinc.com.ar:8443/customer/200'
+
+Consultar un customer:
+
+curl -X GET 'https://vcsinc.com.ar:8443/customer/007'
+
+Consultar todos los customers
+
+curl -X GET 'https://vcsinc.com.ar:8443/customer'
+
+
 Pruebo consultar un Customer que sé que no existe:
 
 $ curl http://localhost:8080/customer/200
