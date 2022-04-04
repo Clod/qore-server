@@ -23,11 +23,6 @@ fun Route.customerRouting() {
 
             pacientesDAO.getAllPatients()
 
-            println("Todos los pacientes")
-            println("Todos los pacientes")
-            println("Todos los pacientes")
-            println("Todos los pacientes")
-
             // call.respond(customerStorage) // Con esto anda...
             call.respond(pacientesDAO.getAllPatients())
 
@@ -43,7 +38,7 @@ fun Route.customerRouting() {
 //                    "No customer with id $id",
 //                    status = HttpStatusCode.NotFound
 //                )
-            println("************** $token **************")
+
             call.respond(pacientesDAO.getSomePatients("%${token}%"))
         }
 

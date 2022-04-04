@@ -16,6 +16,13 @@ fun Application.module() {
         json()
     }
 
+    // Sin esto, me puedo conectar desde un programa de consola y desde Anroid
+    // pero no desde la Web
+    // https://stackoverflow.com/questions/60191683/xmlhttprequest-error-in-flutter-web-enabling-cors-aws-api-gateway
+    install (CORS) {
+        anyHost()
+    }
+
     registerCustomerRoutes()
 }
 

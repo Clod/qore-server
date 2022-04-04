@@ -46,8 +46,8 @@ VALUES
   ("Zachary","Bowman","Costa Rica","O2T 9A6","2021-05-12");
 
 
-    ("Tad","Myers","India","Y1K 2W6","19-08-22"),
-    ("Peter","Winters","Chile","W4T 9S2","22-04-21"),
-    ("Jared","Wall","Australia","C1L 4N6","16-04-22"),
-    ("Rahim","Pickett","Ireland","D2A 0D1","14-07-21"),
-    ("Chester","Baker","Turkey","U3I 3L3","28-02-22"),
+INSERT INTO `pacientes` (`nombre`,`apellido`,`nacionalidad`,`documento`,`fechaNacimiento`)
+VALUES
+  ("Juan","Pérez","Spain","I8P 6I6","2021-09-22"),
+  ("Manuel","Perez","France","P3E 8S9","2022-11-14"),
+  ("Manuel","pErez","France","P3E 8S9","2022-11-14");

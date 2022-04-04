@@ -4,6 +4,7 @@ import models.Pacientes
 import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.transactions.transaction
 
+// https://www.baeldung.com/kotlin/exposed-persistence
 object Users : Table() {
     val id = varchar("id", 10) // Column<String>
     val name = varchar("name", length = 50) // Column<String>

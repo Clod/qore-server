@@ -7,6 +7,8 @@ import org.jetbrains.exposed.sql.select
 import org.jetbrains.exposed.sql.selectAll
 import org.jetbrains.exposed.sql.transactions.transaction
 
+
+// https://github.com/JetBrains/Exposed/wiki/DAO#read-entity-with-a-join-to-another-table
 class PacientesDAO {
 
     fun getAllPatients () : MutableList<PacienteSerial> {
@@ -41,7 +43,7 @@ class PacientesDAO {
         // https://github.com/JetBrains/Exposed/wiki/DAO#read-entity-with-a-join-to-another-table
         transaction {
 
-            val pacientes = Pacientes.select { Pacientes.nacionalidad like token }
+            val pacientes = Pacientes.select { Pacientes.apellido like token }
 //            patientsList = pacientes.toList() as MutableList<Paciente>
             patientsList = Paciente.wrapRows(pacientes).toMutableList()
         }
