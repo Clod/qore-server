@@ -15,13 +15,21 @@ repositories {
 
 dependencies {
     implementation "io.ktor:ktor-server-core:$ktor_version"
-    implementation "io.ktor:ktor-server-netty:$ktor_version"
+//    implementation "io.ktor:ktor-server-netty:$ktor_version"
     implementation "io.ktor:ktor-server-tomcat:$ktor_version"
     implementation "ch.qos.logback:logback-classic:$logback_version"
     implementation "io.ktor:ktor-serialization:$ktor_version"
 
+
     testImplementation "io.ktor:ktor-server-test-host:$ktor_version"
     testImplementation "org.jetbrains.kotlin:kotlin-test"
+    // https://www.baeldung.com/kotlin/exposed-persistence
+    implementation 'org.jetbrains.exposed:exposed-core:0.37.3'
+    implementation 'org.jetbrains.exposed:exposed-dao:0.37.3'
+    implementation 'org.jetbrains.exposed:exposed-jdbc:0.37.3'
+    implementation 'org.jetbrains.exposed:exposed-java-time:0.37.3'
+    implementation 'com.h2database:h2:2.1.210'
+    implementation 'mysql:mysql-connector-java:8.0.28'
 }
 
 compileKotlin {
@@ -35,7 +43,8 @@ application {
     mainClassName = 'com.jetbrains.handson.httpapi.ApplicationKt'
 }
 
-// Descomentar lo de abajo para armar el JAR
+// Descomentar lo de abajo para armar el JAR desde línea de comandos con .\gradlew shadowJar
+// Si no, se puede armar el JAR desde la solapa de Gradle
 //shadowJar {
 //    manifest {
 //        attributes 'Main-Class': 'com.example.ApplicationKt'

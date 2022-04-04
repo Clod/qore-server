@@ -4,7 +4,6 @@ import io.ktor.application.Application
 import io.ktor.features.*
 
 import io.ktor.application.*
-import io.ktor.features.*
 import io.ktor.routing.*
 import io.ktor.serialization.*
 import routes.customerRouting

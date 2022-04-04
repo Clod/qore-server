@@ -1,15 +1,54 @@
 package routes
 
+import com.jetbrains.handson.httpapi.PacientesDAO
+import com.jetbrains.handson.httpapi.PacientesDB
 import io.ktor.application.*
 import io.ktor.http.*
 import io.ktor.request.*
 import io.ktor.response.*
 import io.ktor.routing.*
 import models.Customer
+import models.Paciente
 import models.customerStorage
 
 // Si Clod, es una extension function.
 fun Route.customerRouting() {
+
+    PacientesDB.connectToDB()
+
+    route ("/patients") {
+        var pacientesDAO = PacientesDAO()
+
+        get {
+
+            pacientesDAO.getAllPatients()
+
+            println("Todos los pacientes")
+            println("Todos los pacientes")
+            println("Todos los pacientes")
+            println("Todos los pacientes")
+
+            // call.respond(customerStorage) // Con esto anda...
+            call.respond(pacientesDAO.getAllPatients())
+
+        }
+
+        get("{token}") {
+            val token = call.parameters["token"] ?: return@get call.respondText(
+                "Missing or malformed id",
+                status = HttpStatusCode.BadRequest
+            )
+//            val customer =
+//                customerStorage.find { it.id == id } ?: return@get call.respondText(
+//                    "No customer with id $id",
+//                    status = HttpStatusCode.NotFound
+//                )
+            println("************** $token **************")
+            call.respond(pacientesDAO.getSomePatients("%${token}%"))
+        }
+
+    }
+
     route("/customer") {
         get {
             if (customerStorage.isNotEmpty()) {
@@ -19,6 +58,7 @@ fun Route.customerRouting() {
             }
         }
         get("{id}") {
+
             val id = call.parameters["id"] ?: return@get call.respondText(
                 "Missing or malformed id",
                 status = HttpStatusCode.BadRequest
