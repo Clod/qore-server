@@ -8,7 +8,7 @@ import io.ktor.request.*
 import io.ktor.response.*
 import io.ktor.routing.*
 import models.Customer
-import models.Paciente
+import models.PacienteSerial
 import models.customerStorage
 
 // Si Clod, es una extension function.
@@ -17,7 +17,7 @@ fun Route.customerRouting() {
     PacientesDB.connectToDB()
 
     route ("/patients") {
-        var pacientesDAO = PacientesDAO()
+        val pacientesDAO = PacientesDAO()
 
         get {
 
@@ -40,6 +40,18 @@ fun Route.customerRouting() {
 //                )
 
             call.respond(pacientesDAO.getSomePatients("%${token}%"))
+        }
+
+        post {
+            // call.receive integrates with the Content Negotiation plugin we configured one
+            // of the previous sections. Calling it with the generic parameter Customer
+            // automatically deserializes the JSON request body into a Kotlin Customer object.
+            val patient = call.receive<PacienteSerial>()
+            val token = call.request.headers["authorization"]?.substring(7)
+            //customerStorage.add(customer)
+            print("PACIENTE: $patient")
+            print("ENVIADO POR: $token")
+            call.respondText("Patient stored correctly", status = HttpStatusCode.Created)
         }
 
     }

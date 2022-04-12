@@ -29,6 +29,7 @@ class Paciente(id: EntityID<Int>) : Entity<Int>(id) {
 }
 
 // No se si es la solución más bonita pero anda y, al menos, está todo en el mismo archivo
+// Esto es para resolver los distintos formatos de fecha: date en la BD y string en http
 @Serializable
 data class PacienteSerial (
     val id : Int,
