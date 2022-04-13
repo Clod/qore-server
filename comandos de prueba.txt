@@ -130,3 +130,8 @@ Paso a investigar este otro:
 
 https://github.com/ktorio/ktor-samples/tree/main/graalvm
 
+-------------------------------------------------------------------------------------------------
+
+curl -X GET -H 'Authorization: Bearer AcaPondriaElToken' 'http://localhost:8080/patients'
+
+

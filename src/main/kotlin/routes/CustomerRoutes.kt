@@ -1,5 +1,9 @@
 package routes
 
+import com.google.auth.oauth2.GoogleCredentials
+import com.google.firebase.FirebaseApp
+import com.google.firebase.FirebaseOptions
+import com.google.firebase.auth.FirebaseAuth
 import com.jetbrains.handson.httpapi.PacientesDAO
 import com.jetbrains.handson.httpapi.PacientesDB
 import io.ktor.application.*
@@ -10,11 +14,23 @@ import io.ktor.routing.*
 import models.Customer
 import models.PacienteSerial
 import models.customerStorage
+import java.io.FileInputStream
+import kotlin.text.get
+
 
 // Si Clod, es una extension function.
 fun Route.customerRouting() {
 
     PacientesDB.connectToDB()
+
+    // https://firebase.google.com/docs/admin/setup
+    val serviceAccount = FileInputStream("D:\\home\\Kotlin\\ktor-http-api-sample-main\\src\\main\\resources\\cardio-gut-firebase-adminsdk-q7jz3-6c2cf52658.json")
+
+    val options: FirebaseOptions = FirebaseOptions.Builder()
+        .setCredentials(GoogleCredentials.fromStream(serviceAccount))
+        .build()
+
+    FirebaseApp.initializeApp(options)
 
     route ("/patients") {
         val pacientesDAO = PacientesDAO()
@@ -22,6 +38,16 @@ fun Route.customerRouting() {
         get {
 
             pacientesDAO.getAllPatients()
+
+           val token = call.request.headers["authorization"]?.substring(7)
+/*
+            //https://firebase.google.com/docs/auth/admin/verify-id-tokens#java
+            val decodedToken = FirebaseAuth.getInstance().verifyIdToken(token)
+            val uid = decodedToken.uid
+*/
+            //customerStorage.add(customer)
+            println("TODOS LOS PACIENTES")
+            println("ENVIADO POR: $token")
 
             // call.respond(customerStorage) // Con esto anda...
             call.respond(pacientesDAO.getAllPatients())
