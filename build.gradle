@@ -13,15 +13,16 @@ repositories {
     mavenCentral()
 }
 
+// ALT + Insert
 dependencies {
     implementation "io.ktor:ktor-server-core:$ktor_version"
 //    implementation "io.ktor:ktor-server-netty:$ktor_version"
     implementation "io.ktor:ktor-server-tomcat:$ktor_version"
     implementation "ch.qos.logback:logback-classic:$logback_version"
     implementation "io.ktor:ktor-serialization:$ktor_version"
-//    implementation "io.ktor:ktor-server-cors:$ktor_version"
 
     implementation 'com.google.firebase:firebase-admin:8.1.0'
+    implementation 'io.ktor:ktor-features:1.6.7'
 
 
     testImplementation "io.ktor:ktor-server-test-host:$ktor_version"

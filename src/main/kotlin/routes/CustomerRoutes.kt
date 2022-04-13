@@ -40,14 +40,12 @@ fun Route.customerRouting() {
             pacientesDAO.getAllPatients()
 
            val token = call.request.headers["authorization"]?.substring(7)
-/*
             //https://firebase.google.com/docs/auth/admin/verify-id-tokens#java
             val decodedToken = FirebaseAuth.getInstance().verifyIdToken(token)
             val uid = decodedToken.uid
-*/
             //customerStorage.add(customer)
             println("TODOS LOS PACIENTES")
-            println("ENVIADO POR: $token")
+            println("ENVIADO POR: $uid")
 
             // call.respond(customerStorage) // Con esto anda...
             call.respond(pacientesDAO.getAllPatients())

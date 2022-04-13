@@ -27,10 +27,13 @@ fun Application.module() {
     // Sin esto, me puedo conectar desde un programa de consola y desde Android
     // pero no desde la Web
     // https://stackoverflow.com/questions/60191683/xmlhttprequest-error-in-flutter-web-enabling-cors-aws-api-gateway
-    install (CORS) {
+    // CORS bloquea porque la app viene de http://localhost:56674/ y desde adentro hace una
+    // invocación a vcsinc.com.ar:8443
+    install(CORS) {
         anyHost()
-//        allowHost("0.0.0.0:5000")
-//        allowHeader(HttpHeaders.ContentType)
+//        host("localhost:56674")
+        header(HttpHeaders.ContentType)
+        header(HttpHeaders.Authorization)
     }
 
     registerCustomerRoutes()
