@@ -1,6 +1,5 @@
-[![official JetBrains project](https://jb.gg/badges/official.svg)](https://confluence.jetbrains.com/display/ALL/JetBrains+on+GitHub)
-[![GitHub license](https://img.shields.io/badge/license-Apache%20License%202.0-blue.svg?style=flat)](https://www.apache.org/licenses/LICENSE-2.0)
 
+Las notas del proyecto están en: https://docs.google.com/document/d/10LVrSiR2a6cftdBJ3MsaKB2O4CvpA_hUdYRnam4cXX8/edit?usp=sharing
 
 # Creating an HTTP API with Ktor
 
@@ -18,3 +17,10 @@ Linux:
 
     $ JKS_PATH=/home/clau (Creo una Shell variable)
     $ export JKS_PATH (Creo el ENV variable)
+    $ export GOOGLE_APPLICATION_CREDENTIALS=/home/clau/fb.json
+
+https://stackoverflow.com/questions/12102270/run-java-jar-file-on-a-server-as-background-process
+    Para correr el proceso detachado: Parado en /home/clau
+    $ nohup ./java -jar xxxxx &
+
+

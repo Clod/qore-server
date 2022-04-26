@@ -14,6 +14,7 @@ repositories {
 }
 
 // ALT + Insert
+// Guía de migración a 2.0.0
 dependencies {
     implementation "io.ktor:ktor-server-core:$ktor_version"
 //    implementation "io.ktor:ktor-server-netty:$ktor_version"
@@ -33,7 +34,8 @@ dependencies {
     implementation 'org.jetbrains.exposed:exposed-jdbc:0.37.3'
     implementation 'org.jetbrains.exposed:exposed-java-time:0.37.3'
     implementation 'com.h2database:h2:2.1.210'
-    implementation 'mysql:mysql-connector-java:8.0.28'
+    //implementation 'mysql:mysql-connector-java:8.0.28'
+    runtimeOnly 'mysql:mysql-connector-java:8.0.28'
 }
 
 compileKotlin {

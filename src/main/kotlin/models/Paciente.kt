@@ -8,6 +8,9 @@ import org.jetbrains.exposed.dao.id.IntIdTable
 import org.jetbrains.exposed.sql.javatime.date
 import java.time.LocalDate
 
+// https://medium.com/nerd-for-tech/an-opinionated-kotlin-backend-service-database-migration-orm-52527ce3228
+
+//  Table
 object Pacientes : IntIdTable("PACIENTES")
 {
     val nombre = varchar("nombre", 50)
@@ -17,7 +20,7 @@ object Pacientes : IntIdTable("PACIENTES")
     val fechaNacimiento = date("fechaNacimiento");
 }
 
-
+// Entity
 class Paciente(id: EntityID<Int>) : Entity<Int>(id) {
     companion object : EntityClass<Int, Paciente>(Pacientes)
 
@@ -28,7 +31,8 @@ class Paciente(id: EntityID<Int>) : Entity<Int>(id) {
     var fechaNacimiento by Pacientes.fechaNacimiento
 }
 
-// No se si es la solución más bonita pero anda y, al menos, está todo en el mismo archivo
+// No sé si es la solución más bonita pero anda y, al menos, está todo en el mismo archivo
+// Esto vendría a ser un DTO
 // Esto es para resolver los distintos formatos de fecha: date en la BD y string en http
 @Serializable
 data class PacienteSerial (

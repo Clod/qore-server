@@ -3,6 +3,7 @@ package com.jetbrains.handson.httpapi
 import models.Pacientes
 import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.transactions.transaction
+import java.sql.DriverManager
 
 // https://www.baeldung.com/kotlin/exposed-persistence
 object Users : Table() {
@@ -25,9 +26,10 @@ class PacientesDB {
     // https://devexperto.com/object-kotlin-singleton/
     companion object {
         fun connectToDB() {
+
             Database.connect(
-                "jdbc:mysql://localhost:3306/prueba", driver = "org.h2.Driver",
-                user = "root", password = "root"
+                "jdbc:mysql://localhost:3306/qore", driver = "org.h2.Driver",
+                user = "claudio", password = "claudio"
             )
 
             transaction {

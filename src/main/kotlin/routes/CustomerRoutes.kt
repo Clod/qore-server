@@ -3,7 +3,6 @@ package routes
 import com.google.auth.oauth2.GoogleCredentials
 import com.google.firebase.FirebaseApp
 import com.google.firebase.FirebaseOptions
-import com.google.firebase.auth.FirebaseAuth
 import com.jetbrains.handson.httpapi.PacientesDAO
 import com.jetbrains.handson.httpapi.PacientesDB
 import io.ktor.application.*
@@ -14,8 +13,7 @@ import io.ktor.routing.*
 import models.Customer
 import models.PacienteSerial
 import models.customerStorage
-import java.io.FileInputStream
-import kotlin.text.get
+import java.io.File
 
 
 // Si Clod, es una extension function.
@@ -24,11 +22,22 @@ fun Route.customerRouting() {
     PacientesDB.connectToDB()
 
     // https://firebase.google.com/docs/admin/setup
-    val serviceAccount = FileInputStream("D:\\home\\Kotlin\\ktor-http-api-sample-main\\src\\main\\resources\\cardio-gut-firebase-adminsdk-q7jz3-6c2cf52658.json")
+//    val serviceAccount = FileInputStream("D:\\home\\Kotlin\\ktor-http-api-sample-main\\src\\main\\resources\\cardio-gut-firebase-adminsdk-q7jz3-6c2cf52658.json")
+  System.out.println("Absolute path: " + File(".").getAbsolutePath());
+    // val serviceAccount = FileInputStream("./build/resources/main/Firestore/cardio-gut-firebase-adminsdk-q7jz3-6c2cf52658.json")
 
-    val options: FirebaseOptions = FirebaseOptions.Builder()
-        .setCredentials(GoogleCredentials.fromStream(serviceAccount))
-        .build()
+//    val options: FirebaseOptions = FirebaseOptions.Builder()
+//        .setCredentials(GoogleCredentials.fromStream(serviceAccount))
+//        .build()
+//    System.out.println("Absolute path: " + File("cardio-gut-firebase-adminsdk-q7jz3-6c2cf52658.json").getAbsolutePath());
+//
+//    val fileContent = File("cardio-gut-firebase-adminsdk-q7jz3-6c2cf52658.json").readText(Charsets.UTF_8)
+//
+//    println("File content: $fileContent")
+
+    val options: FirebaseOptions = FirebaseOptions.builder()
+        .setCredentials(GoogleCredentials.getApplicationDefault())
+        .build();
 
     FirebaseApp.initializeApp(options)
 
@@ -39,13 +48,14 @@ fun Route.customerRouting() {
 
             pacientesDAO.getAllPatients()
 
-           val token = call.request.headers["authorization"]?.substring(7)
-            //https://firebase.google.com/docs/auth/admin/verify-id-tokens#java
-            val decodedToken = FirebaseAuth.getInstance().verifyIdToken(token)
-            val uid = decodedToken.uid
+            // Acá valido el token que me manda el cliente
+//           val token = call.request.headers["authorization"]?.substring(7)
+//            //https://firebase.google.com/docs/auth/admin/verify-id-tokens#java
+//            val decodedToken = FirebaseAuth.getInstance().verifyIdToken(token)
+//            val uid = decodedToken.uid
             //customerStorage.add(customer)
             println("TODOS LOS PACIENTES")
-            println("ENVIADO POR: $uid")
+//            println("ENVIADO POR: $uid")
 
             // call.respond(customerStorage) // Con esto anda...
             call.respond(pacientesDAO.getAllPatients())
@@ -66,16 +76,30 @@ fun Route.customerRouting() {
             call.respond(pacientesDAO.getSomePatients("%${token}%"))
         }
 
-        post {
+        post () {
             // call.receive integrates with the Content Negotiation plugin we configured one
             // of the previous sections. Calling it with the generic parameter Customer
             // automatically deserializes the JSON request body into a Kotlin Customer object.
             val patient = call.receive<PacienteSerial>()
             val token = call.request.headers["authorization"]?.substring(7)
             //customerStorage.add(customer)
-            print("PACIENTE: $patient")
+            print("PACIENTE ALTA: $patient")
             print("ENVIADO POR: $token")
+            pacientesDAO.storePatient(patient)
             call.respondText("Patient stored correctly", status = HttpStatusCode.Created)
+        }
+
+        put () {
+            // call.receive integrates with the Content Negotiation plugin we configured one
+            // of the previous sections. Calling it with the generic parameter Customer
+            // automatically deserializes the JSON request body into a Kotlin Customer object.
+            val patient = call.receive<PacienteSerial>()
+            val token = call.request.headers["authorization"]?.substring(7)
+            //customerStorage.add(customer)
+            print("PACIENTE MODIFICAR: $patient")
+            print("ENVIADO POR: $token")
+            pacientesDAO.updatePatient(patient)
+            call.respondText("Patient updated correctly", status = HttpStatusCode.OK)
         }
 
     }

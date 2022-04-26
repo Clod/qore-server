@@ -16,6 +16,11 @@ fun main(args: Array<String>): Unit = io.ktor.server.tomcat.EngineMain.main(args
 // La referencia en application.conf
 fun Application.module() {
 
+    val env = System.getenv("JAVA_HOME")
+    println (env)
+    val google = System.getenv("GOOGLE_APPLICATION_CREDENTIALS")
+    println(google)
+
     install(CallLogging) {
         level = Level.DEBUG
     }
@@ -34,6 +39,7 @@ fun Application.module() {
 //        host("localhost:56674")
         header(HttpHeaders.ContentType)
         header(HttpHeaders.Authorization)
+        method(HttpMethod.Put)
     }
 
     registerCustomerRoutes()
