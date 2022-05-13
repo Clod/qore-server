@@ -74,6 +74,7 @@ class PacientesDAO {
                 documento = patient.documento
                 nacionalidad = patient.nacionalidad
                 fechaNacimiento = LocalDate.parse(patient.fechaNacimiento, DateTimeFormatter.ofPattern("yyyy-MM-dd"))
+                fechaCreacionFicha = LocalDate.parse(patient.fechaCreacionFicha, DateTimeFormatter.ofPattern("yyyy-MM-dd"))
             }
         }
 
@@ -88,6 +89,7 @@ class PacientesDAO {
                 it[documento] = patient.documento
                 it[nacionalidad] = patient.nacionalidad
                 it[fechaNacimiento] = LocalDate.parse(patient.fechaNacimiento, DateTimeFormatter.ofPattern("yyyy-MM-dd"))
+                it[fechaCreacionFicha] = LocalDate.parse(patient.fechaCreacionFicha, DateTimeFormatter.ofPattern("yyyy-MM-dd"))
 
             }
         }

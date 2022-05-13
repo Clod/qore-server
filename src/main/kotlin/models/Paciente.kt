@@ -18,6 +18,7 @@ object Pacientes : IntIdTable("PACIENTES")
     val documento = varchar("documento", 50)
     val nacionalidad = varchar("nacionalidad", 50)
     val fechaNacimiento = date("fechaNacimiento");
+    val fechaCreacionFicha = date("fecha_creacion_ficha");
 }
 
 // Entity
@@ -29,6 +30,7 @@ class Paciente(id: EntityID<Int>) : Entity<Int>(id) {
     var documento       by Pacientes.documento
     var nacionalidad    by Pacientes.nacionalidad
     var fechaNacimiento by Pacientes.fechaNacimiento
+    var fechaCreacionFicha by Pacientes.fechaCreacionFicha
 }
 
 // No sé si es la solución más bonita pero anda y, al menos, está todo en el mismo archivo
@@ -42,6 +44,7 @@ data class PacienteSerial (
     val documento : String,
     val nacionalidad : String,
     val fechaNacimiento : String,
+    val fechaCreacionFicha : String,
 ) {
     constructor(paciente: Paciente) :
             this (
@@ -50,5 +53,6 @@ data class PacienteSerial (
                 paciente.apellido,
                 paciente.documento,
                 paciente.nacionalidad,
-                paciente.fechaNacimiento.toString())
+                paciente.fechaNacimiento.toString(),
+                paciente.fechaCreacionFicha.toString())
 }
