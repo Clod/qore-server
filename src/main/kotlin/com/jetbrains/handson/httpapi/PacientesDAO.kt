@@ -73,8 +73,18 @@ class PacientesDAO {
                 apellido = patient.apellido
                 documento = patient.documento
                 nacionalidad = patient.nacionalidad
-                fechaNacimiento = LocalDate.parse(patient.fechaNacimiento, DateTimeFormatter.ofPattern("yyyy-MM-dd"))
+//                fechaNacimiento = LocalDate.parse(patient.fechaNacimiento, DateTimeFormatter.ofPattern("yyyy-MM-dd"))
+                fechaNacimiento = if(patient.fechaNacimiento != null) LocalDate.parse(patient.fechaNacimiento, DateTimeFormatter.ofPattern("yyyy-MM-dd")) else null
                 fechaCreacionFicha = LocalDate.parse(patient.fechaCreacionFicha, DateTimeFormatter.ofPattern("yyyy-MM-dd"))
+                sexo = patient.sexo
+                diagnosticoPrenatal = patient.diagnosticoPrenatal
+                pacienteFallecido = patient.pacienteFallecido
+                semanasGestacion = patient.semanasGestacion
+                diagnostico = patient.diagnostico
+                subDiagnostico = patient.subDiagnostico
+                fechaPrimerDiagnostico = if(patient.fechaPrimerDiagnostico != null) LocalDate.parse(patient.fechaPrimerDiagnostico, DateTimeFormatter.ofPattern("yyyy-MM-dd")) else null
+                nroHistClinicaPapel = patient.nroHistClinicaPapel
+                comentarios = patient.comentarios
             }
         }
 
@@ -88,9 +98,17 @@ class PacientesDAO {
                 it[apellido] = patient.apellido
                 it[documento] = patient.documento
                 it[nacionalidad] = patient.nacionalidad
-                it[fechaNacimiento] = LocalDate.parse(patient.fechaNacimiento, DateTimeFormatter.ofPattern("yyyy-MM-dd"))
+                it[fechaNacimiento] = if (patient.fechaNacimiento != null)  LocalDate.parse(patient.fechaNacimiento, DateTimeFormatter.ofPattern("yyyy-MM-dd")) else null
                 it[fechaCreacionFicha] = LocalDate.parse(patient.fechaCreacionFicha, DateTimeFormatter.ofPattern("yyyy-MM-dd"))
-
+                it[diagnosticoPrenatal] = patient.diagnosticoPrenatal
+                it[sexo] = patient.sexo
+                it[pacienteFallecido] = patient.pacienteFallecido
+                it[semanasGestacion] = patient.semanasGestacion
+                it[diagnostico] = patient.diagnostico
+                it[subDiagnostico] = patient.subDiagnostico
+                it[fechaPrimerDiagnostico] = if (patient.fechaPrimerDiagnostico != null)  LocalDate.parse(patient.fechaPrimerDiagnostico, DateTimeFormatter.ofPattern("yyyy-MM-dd")) else null
+                it[nroHistClinicaPapel] = patient.nroHistClinicaPapel
+                it[comentarios] = patient.comentarios
             }
         }
     }

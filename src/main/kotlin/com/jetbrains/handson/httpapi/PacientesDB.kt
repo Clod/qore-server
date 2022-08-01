@@ -47,23 +47,6 @@ class PacientesDB {
                     val dt = LocalDateTime.parse(stringDate, formatter)
                 */
 
-
-
-//                Paciente.new {
-//                    nombre = "Juan"
-//                    apellido = "De los Palotes"
-//                    nacionalidad = "Argentina"
-//                    documento = "1234567890"
-//                    fechaNacimiento = LocalDate.parse("1962-02-08")
-//                }
-
-                // val pacientes = Pacientes.selectAll()
-
-                // val pacientes = Pacientes.select { Pacientes.nombre eq "Juan"  } // Anda
-
-//                val pacientes = Pacientes.select { Pacientes.nacionalidad like "%in%"  }
-//
-//                println("Todos los pacientes: ${pacientes.toList()}")
             }
         }
     }
