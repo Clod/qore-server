@@ -3,11 +3,6 @@ package com.jetbrains.handson.httpapi
 import models.Paciente
 import models.PacienteSerial
 import models.Pacientes
-import models.Pacientes.apellido
-import models.Pacientes.documento
-import models.Pacientes.fechaNacimiento
-import models.Pacientes.nacionalidad
-import models.Pacientes.nombre
 import org.jetbrains.exposed.sql.select
 import org.jetbrains.exposed.sql.selectAll
 import org.jetbrains.exposed.sql.transactions.transaction
@@ -80,8 +75,10 @@ class PacientesDAO {
                 diagnosticoPrenatal = patient.diagnosticoPrenatal
                 pacienteFallecido = patient.pacienteFallecido
                 semanasGestacion = patient.semanasGestacion
-                diagnostico = patient.diagnostico
-                subDiagnostico = patient.subDiagnostico
+                diag1 = patient.diag1
+                diag2 = patient.diag2
+                diag3 = patient.diag3
+                diag4 = patient.diag4
                 fechaPrimerDiagnostico = if(patient.fechaPrimerDiagnostico != null) LocalDate.parse(patient.fechaPrimerDiagnostico, DateTimeFormatter.ofPattern("yyyy-MM-dd")) else null
                 nroHistClinicaPapel = patient.nroHistClinicaPapel
                 comentarios = patient.comentarios
@@ -104,8 +101,10 @@ class PacientesDAO {
                 it[sexo] = patient.sexo
                 it[pacienteFallecido] = patient.pacienteFallecido
                 it[semanasGestacion] = patient.semanasGestacion
-                it[diagnostico] = patient.diagnostico
-                it[subDiagnostico] = patient.subDiagnostico
+                it[diag1] = patient.diag1
+                it[diag2] = patient.diag2
+                it[diag3] = patient.diag3
+                it[diag4] = patient.diag4
                 it[fechaPrimerDiagnostico] = if (patient.fechaPrimerDiagnostico != null)  LocalDate.parse(patient.fechaPrimerDiagnostico, DateTimeFormatter.ofPattern("yyyy-MM-dd")) else null
                 it[nroHistClinicaPapel] = patient.nroHistClinicaPapel
                 it[comentarios] = patient.comentarios

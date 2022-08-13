@@ -1,14 +1,12 @@
 package models
 
 //import com.sun.org.apache.xalan.internal.lib.ExsltDatetime.date
-import com.jetbrains.handson.httpapi.Users.nullable
 import kotlinx.serialization.Serializable
 import org.jetbrains.exposed.dao.Entity
 import org.jetbrains.exposed.dao.EntityClass
 import org.jetbrains.exposed.dao.id.EntityID
 import org.jetbrains.exposed.dao.id.IntIdTable
 import org.jetbrains.exposed.sql.javatime.date
-import java.time.LocalDate
 
 // https://medium.com/nerd-for-tech/an-opinionated-kotlin-backend-service-database-migration-orm-52527ce3228
 
@@ -25,8 +23,10 @@ object Pacientes : IntIdTable("PACIENTES")
     val diagnosticoPrenatal = char("diagnostico_prenatal").nullable()
     val pacienteFallecido = char("paciente_fallecido").nullable()
     val semanasGestacion = integer("semanas_gestacion").nullable()
-    val diagnostico = varchar("diagnostico", 50).nullable()
-    val subDiagnostico = varchar("sub_diagnostico", 50).nullable()
+    val diag1 = varchar("diag1", 140).nullable()
+    val diag2 = varchar("diag2", 140).nullable()
+    val diag3 = varchar("diag3", 140).nullable()
+    val diag4 = varchar("diag4", 140).nullable()
     val fechaPrimerDiagnostico = date("fecha_primer_diagnostico").nullable()
     val nroHistClinicaPapel = varchar("nro_hist_clinica_papel", 20).nullable()
     val comentarios = varchar("comentarios", 500).nullable()
@@ -46,8 +46,10 @@ class Paciente(id: EntityID<Int>) : Entity<Int>(id) {
     var diagnosticoPrenatal by Pacientes.diagnosticoPrenatal
     var pacienteFallecido by Pacientes.pacienteFallecido
     var semanasGestacion by Pacientes.semanasGestacion
-    var diagnostico by Pacientes.diagnostico
-    var subDiagnostico by Pacientes.subDiagnostico
+    var diag1 by Pacientes.diag1
+    var diag2 by Pacientes.diag2
+    var diag3 by Pacientes.diag3
+    var diag4 by Pacientes.diag4
     var fechaPrimerDiagnostico by Pacientes.fechaPrimerDiagnostico
     var nroHistClinicaPapel by Pacientes.nroHistClinicaPapel
     var comentarios by Pacientes.comentarios
@@ -69,8 +71,10 @@ data class PacienteSerial (
     val diagnosticoPrenatal : Char?,
     val pacienteFallecido : Char?,
     val semanasGestacion : Int?,
-    val diagnostico : String?,
-    val subDiagnostico : String?,
+    val diag1 : String?,
+    val diag2 : String?,
+    val diag3 : String?,
+    val diag4 : String?,
     val fechaPrimerDiagnostico : String?,
     val nroHistClinicaPapel : String?,
     val comentarios : String?,
@@ -88,8 +92,10 @@ data class PacienteSerial (
                 paciente.diagnosticoPrenatal,
                 paciente.pacienteFallecido,
                 paciente.semanasGestacion,
-                paciente.diagnostico,
-                paciente.subDiagnostico,
+                paciente.diag1,
+                paciente.diag2,
+                paciente.diag3,
+                paciente.diag4,
                 paciente.fechaPrimerDiagnostico.toString(),
                 paciente.nroHistClinicaPapel,
                 paciente.comentarios)
