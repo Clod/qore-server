@@ -3,6 +3,8 @@ package com.jetbrains.handson.httpapi
 import models.Paciente
 import models.PacienteSerial
 import models.Pacientes
+import models.Pacientes.apellido
+import models.Pacientes.nombre
 import org.jetbrains.exposed.sql.select
 import org.jetbrains.exposed.sql.selectAll
 import org.jetbrains.exposed.sql.transactions.transaction
@@ -60,10 +62,12 @@ class PacientesDAO {
         return patientsListSerial
     }
 
-    fun storePatient(patient: PacienteSerial) {
+    fun storePatient(patient: PacienteSerial) : Int {
+
+        var numeroPacienteCreado = 0;
 
         transaction {
-            Paciente.new {
+            var newPatient = Paciente.new {
                 nombre = patient.nombre
                 apellido = patient.apellido
                 documento = patient.documento
@@ -83,8 +87,11 @@ class PacientesDAO {
                 nroHistClinicaPapel = patient.nroHistClinicaPapel
                 comentarios = patient.comentarios
             }
+
+            numeroPacienteCreado = newPatient.id.value
         }
 
+        return numeroPacienteCreado
     }
 
     fun updatePatient(patient: PacienteSerial) {

@@ -85,8 +85,8 @@ fun Route.customerRouting() {
             //customerStorage.add(customer)
             print("PACIENTE ALTA: $patient")
             print("ENVIADO POR: $token")
-            pacientesDAO.storePatient(patient)
-            call.respondText("Patient stored correctly", status = HttpStatusCode.Created)
+            var idPPac = pacientesDAO.storePatient(patient)
+            call.respondText("Patient stored correctly ${idPPac.toString()}", status = HttpStatusCode.Created)
         }
 
         put () {
