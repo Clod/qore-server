@@ -14,10 +14,21 @@ import models.Customer
 import models.PacienteSerial
 import models.customerStorage
 import java.io.File
+import java.text.SimpleDateFormat
+import java.util.*
 
 
 // Si Clod, es una extension function.
 fun Route.customerRouting() {
+
+    // Pongo esta ruta antes de la validación contra Firebase como para poder probar fácilmente si el servidor está vivo.
+    route ("/isalive") {
+        get {
+            val sdf = SimpleDateFormat("dd/M/yyyy hh:mm:ss")
+            val currentDate = sdf.format(Date())
+            call.respondText("Yes buddy, I´m alive ($currentDate)", status = HttpStatusCode.OK)
+        }
+    }
 
     PacientesDB.connectToDB()
 
@@ -76,6 +87,7 @@ fun Route.customerRouting() {
             call.respond(pacientesDAO.getSomePatients("%${token}%"))
         }
 
+        // Alta de paciente en la BD
         post () {
             // call.receive integrates with the Content Negotiation plugin we configured one
             // of the previous sections. Calling it with the generic parameter Customer
@@ -84,11 +96,12 @@ fun Route.customerRouting() {
             val token = call.request.headers["authorization"]?.substring(7)
             //customerStorage.add(customer)
             print("PACIENTE ALTA: $patient")
-            print("ENVIADO POR: $token")
+            print("\nENVIADO POR: $token")
             var idPPac = pacientesDAO.storePatient(patient)
-            call.respondText("Patient stored correctly ${idPPac.toString()}", status = HttpStatusCode.Created)
+            call.respondText("Patient stored correctly {${idPPac.toString()}}", status = HttpStatusCode.Created)
         }
 
+        // Modificación de paciente en la BD
         put () {
             // call.receive integrates with the Content Negotiation plugin we configured one
             // of the previous sections. Calling it with the generic parameter Customer
@@ -104,42 +117,42 @@ fun Route.customerRouting() {
 
     }
 
-    route("/customer") {
-        get {
-            if (customerStorage.isNotEmpty()) {
-                call.respond(customerStorage)
-            } else {
-                call.respondText("No customers found", status = HttpStatusCode.NotFound)
-            }
-        }
-        get("{id}") {
-
-            val id = call.parameters["id"] ?: return@get call.respondText(
-                "Missing or malformed id",
-                status = HttpStatusCode.BadRequest
-            )
-            val customer =
-                customerStorage.find { it.id == id } ?: return@get call.respondText(
-                    "No customer with id $id",
-                    status = HttpStatusCode.NotFound
-                )
-            call.respond(customer)
-        }
-        post {
-            // call.receive integrates with the Content Negotiation plugin we configured one
-            // of the previous sections. Calling it with the generic parameter Customer
-            // automatically deserializes the JSON request body into a Kotlin Customer object.
-            val customer = call.receive<Customer>()
-            customerStorage.add(customer)
-            call.respondText("Customer stored correctly", status = HttpStatusCode.Created)
-        }
-        delete("{id}") {
-            val id = call.parameters["id"] ?: return@delete call.respond(HttpStatusCode.BadRequest)
-            if (customerStorage.removeIf { it.id == id }) {
-                call.respondText("Customer removed correctly", status = HttpStatusCode.Accepted)
-            } else {
-                call.respondText("Not Found", status = HttpStatusCode.NotFound)
-            }
-        }
-    }
+//    route("/customer") {
+//        get {
+//            if (customerStorage.isNotEmpty()) {
+//                call.respond(customerStorage)
+//            } else {
+//                call.respondText("No customers found", status = HttpStatusCode.NotFound)
+//            }
+//        }
+//        get("{id}") {
+//
+//            val id = call.parameters["id"] ?: return@get call.respondText(
+//                "Missing or malformed id",
+//                status = HttpStatusCode.BadRequest
+//            )
+//            val customer =
+//                customerStorage.find { it.id == id } ?: return@get call.respondText(
+//                    "No customer with id $id",
+//                    status = HttpStatusCode.NotFound
+//                )
+//            call.respond(customer)
+//        }
+//        post {
+//            // call.receive integrates with the Content Negotiation plugin we configured one
+//            // of the previous sections. Calling it with the generic parameter Customer
+//            // automatically deserializes the JSON request body into a Kotlin Customer object.
+//            val customer = call.receive<Customer>()
+//            customerStorage.add(customer)
+//            call.respondText("Customer stored correctly", status = HttpStatusCode.Created)
+//        }
+//        delete("{id}") {
+//            val id = call.parameters["id"] ?: return@delete call.respond(HttpStatusCode.BadRequest)
+//            if (customerStorage.removeIf { it.id == id }) {
+//                call.respondText("Customer removed correctly", status = HttpStatusCode.Accepted)
+//            } else {
+//                call.respondText("Not Found", status = HttpStatusCode.NotFound)
+//            }
+//        }
+//    }
 }

@@ -52,6 +52,7 @@ application {
 }
 
 // Descomentar lo de abajo para armar el JAR desde línea de comandos con .\gradlew shadowJar
+// NO ES CIERTO!!! NO HACE FALTA DESCOMENTARLO. EL .\gradlew shadowJar anda igual!!!
 // Si no, se puede armar el JAR desde la solapa de Gradle
 //shadowJar {
 //    manifest {

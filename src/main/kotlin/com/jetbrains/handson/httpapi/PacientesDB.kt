@@ -6,20 +6,20 @@ import org.jetbrains.exposed.sql.transactions.transaction
 import java.sql.DriverManager
 
 // https://www.baeldung.com/kotlin/exposed-persistence
-object Users : Table() {
-    val id = varchar("id", 10) // Column<String>
-    val name = varchar("name", length = 50) // Column<String>
-    val cityId = (integer("city_id") references Cities.id).nullable() // Column<Int?>
+//object Users : Table() {
+//    val id = varchar("id", 10) // Column<String>
+//    val name = varchar("name", length = 50) // Column<String>
+//    val cityId = (integer("city_id") references Cities.id).nullable() // Column<Int?>
+//
+//    override val primaryKey = PrimaryKey(id, name = "PK_User_ID") // name is optional here
+//}
 
-    override val primaryKey = PrimaryKey(id, name = "PK_User_ID") // name is optional here
-}
-
-object Cities : Table() {
-    val id = integer("id").autoIncrement() // Column<Int>
-    val name = varchar("name", 50) // Column<String>
-
-    override val primaryKey = PrimaryKey(id, name = "PK_Cities_ID")
-}
+//object Cities : Table() {
+//    val id = integer("id").autoIncrement() // Column<Int>
+//    val name = varchar("name", 50) // Column<String>
+//
+//    override val primaryKey = PrimaryKey(id, name = "PK_Cities_ID")
+//}
 
 class PacientesDB {
 
