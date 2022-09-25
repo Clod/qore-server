@@ -10,9 +10,7 @@ import io.ktor.http.*
 import io.ktor.request.*
 import io.ktor.response.*
 import io.ktor.routing.*
-import models.Customer
 import models.PacienteSerial
-import models.customerStorage
 import java.io.File
 import java.text.SimpleDateFormat
 import java.util.*
@@ -34,7 +32,7 @@ fun Route.customerRouting() {
 
     // https://firebase.google.com/docs/admin/setup
 //    val serviceAccount = FileInputStream("D:\\home\\Kotlin\\ktor-http-api-sample-main\\src\\main\\resources\\cardio-gut-firebase-adminsdk-q7jz3-6c2cf52658.json")
-  System.out.println("Absolute path: " + File(".").getAbsolutePath());
+  System.out.println("Absolute path: " + File(".").getAbsolutePath())
     // val serviceAccount = FileInputStream("./build/resources/main/Firestore/cardio-gut-firebase-adminsdk-q7jz3-6c2cf52658.json")
 
 //    val options: FirebaseOptions = FirebaseOptions.Builder()
@@ -48,7 +46,7 @@ fun Route.customerRouting() {
 
     val options: FirebaseOptions = FirebaseOptions.builder()
         .setCredentials(GoogleCredentials.getApplicationDefault())
-        .build();
+        .build()
 
     FirebaseApp.initializeApp(options)
 
@@ -97,7 +95,7 @@ fun Route.customerRouting() {
             //customerStorage.add(customer)
             print("PACIENTE ALTA: $patient")
             print("\nENVIADO POR: $token")
-            var idPPac = pacientesDAO.storePatient(patient)
+            val idPPac = pacientesDAO.storePatient(patient)
             call.respondText("Patient stored correctly {${idPPac.toString()}}", status = HttpStatusCode.Created)
         }
 
@@ -111,8 +109,8 @@ fun Route.customerRouting() {
             //customerStorage.add(customer)
             print("PACIENTE MODIFICAR: $patient")
             print("ENVIADO POR: $token")
-            pacientesDAO.updatePatient(patient)
-            call.respondText("Patient updated correctly", status = HttpStatusCode.OK)
+            val idPPac = pacientesDAO.updatePatient(patient)
+            call.respondText("Patient updated correctly {${idPPac.toString()}}", status = HttpStatusCode.OK)
         }
 
     }

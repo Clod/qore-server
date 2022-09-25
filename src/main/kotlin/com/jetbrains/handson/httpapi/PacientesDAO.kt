@@ -3,8 +3,6 @@ package com.jetbrains.handson.httpapi
 import models.Paciente
 import models.PacienteSerial
 import models.Pacientes
-import models.Pacientes.apellido
-import models.Pacientes.nombre
 import org.jetbrains.exposed.sql.select
 import org.jetbrains.exposed.sql.selectAll
 import org.jetbrains.exposed.sql.transactions.transaction
@@ -22,7 +20,7 @@ class PacientesDAO {
         println("Starting getAllPatients()")
 
         var patientsList = mutableListOf<Paciente>()
-        var patientsListSerial = mutableListOf<PacienteSerial>()
+        val patientsListSerial = mutableListOf<PacienteSerial>()
 
         // https://github.com/JetBrains/Exposed/wiki/DAO#read-entity-with-a-join-to-another-table
         transaction {
@@ -44,7 +42,7 @@ class PacientesDAO {
         println("Starting getSomePatients()")
 
         var patientsList = mutableListOf<Paciente>()
-        var patientsListSerial = mutableListOf<PacienteSerial>()
+        val patientsListSerial = mutableListOf<PacienteSerial>()
 
         // https://github.com/JetBrains/Exposed/wiki/DAO#read-entity-with-a-join-to-another-table
         transaction {
@@ -64,10 +62,10 @@ class PacientesDAO {
 
     fun storePatient(patient: PacienteSerial) : Int {
 
-        var numeroPacienteCreado = 0;
+        var numeroPacienteCreado = 0
 
         transaction {
-            var newPatient = Paciente.new {
+            val newPatient = Paciente.new {
                 nombre = patient.nombre
                 apellido = patient.apellido
                 documento = patient.documento
@@ -85,6 +83,7 @@ class PacientesDAO {
                 diag4 = patient.diag4
                 fechaPrimerDiagnostico = if(patient.fechaPrimerDiagnostico != null) LocalDate.parse(patient.fechaPrimerDiagnostico, DateTimeFormatter.ofPattern("yyyy-MM-dd")) else null
                 nroHistClinicaPapel = patient.nroHistClinicaPapel
+                nroFichaDiagPrenatal = patient.nroFichaDiagPrenatal
                 comentarios = patient.comentarios
             }
 
@@ -94,10 +93,12 @@ class PacientesDAO {
         return numeroPacienteCreado
     }
 
-    fun updatePatient(patient: PacienteSerial) {
+    fun updatePatient(patient: PacienteSerial) : Int {
+
+        var numeroPacienteModificado = 0
 
         transaction {
-            Pacientes.update ({ Pacientes.id eq patient.id }) {
+            numeroPacienteModificado = Pacientes.update ({ Pacientes.id eq patient.id }) {
                 it[nombre] = patient.nombre
                 it[apellido] = patient.apellido
                 it[documento] = patient.documento
@@ -114,8 +115,14 @@ class PacientesDAO {
                 it[diag4] = patient.diag4
                 it[fechaPrimerDiagnostico] = if (patient.fechaPrimerDiagnostico != null)  LocalDate.parse(patient.fechaPrimerDiagnostico, DateTimeFormatter.ofPattern("yyyy-MM-dd")) else null
                 it[nroHistClinicaPapel] = patient.nroHistClinicaPapel
+                it[nroFichaDiagPrenatal] = patient.nroFichaDiagPrenatal
                 it[comentarios] = patient.comentarios
             }
         }
+
+        if (numeroPacienteModificado == 1)
+            return patient.id
+        else
+            return 0
     }
 }

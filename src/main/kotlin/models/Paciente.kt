@@ -29,6 +29,7 @@ object Pacientes : IntIdTable("PACIENTES")
     val diag4 = varchar("diag4", 140).nullable()
     val fechaPrimerDiagnostico = date("fecha_primer_diagnostico").nullable()
     val nroHistClinicaPapel = varchar("nro_hist_clinica_papel", 20).nullable()
+    val nroFichaDiagPrenatal = varchar("nro_ficha_diag_prenatal", 20).nullable()
     val comentarios = varchar("comentarios", 500).nullable()
 }
 
@@ -52,6 +53,7 @@ class Paciente(id: EntityID<Int>) : Entity<Int>(id) {
     var diag4 by Pacientes.diag4
     var fechaPrimerDiagnostico by Pacientes.fechaPrimerDiagnostico
     var nroHistClinicaPapel by Pacientes.nroHistClinicaPapel
+    var nroFichaDiagPrenatal by Pacientes.nroFichaDiagPrenatal
     var comentarios by Pacientes.comentarios
 }
 
@@ -77,6 +79,7 @@ data class PacienteSerial (
     val diag4 : String?,
     val fechaPrimerDiagnostico : String?,
     val nroHistClinicaPapel : String?,
+    val nroFichaDiagPrenatal : String?,
     val comentarios : String?,
 ) {
     constructor(paciente: Paciente) :
@@ -98,5 +101,6 @@ data class PacienteSerial (
                 paciente.diag4,
                 paciente.fechaPrimerDiagnostico.toString(),
                 paciente.nroHistClinicaPapel,
+                paciente.nroFichaDiagPrenatal,
                 paciente.comentarios)
 }
