@@ -21,6 +21,17 @@ import java.sql.DriverManager
 //    override val primaryKey = PrimaryKey(id, name = "PK_Cities_ID")
 //}
 
+/*
+    https://docs.google.com/document/d/10LVrSiR2a6cftdBJ3MsaKB2O4CvpA_hUdYRnam4cXX8/edit?usp=sharing
+
+    Como el driver de la Base de Datos (mysql-connector-java-8.0.28.jar) se carga en forma
+    dinámica, cuando se arma el FAT JAR no se lo incluye automáticamente. Para incluirlo
+    hay que agregarlo en el directorio:
+
+    src/main/resources/
+*/
+
+
 class PacientesDB {
 
     // https://devexperto.com/object-kotlin-singleton/

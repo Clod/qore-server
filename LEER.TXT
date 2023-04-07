@@ -2,6 +2,15 @@ https://docs.google.com/document/d/10LVrSiR2a6cftdBJ3MsaKB2O4CvpA_hUdYRnam4cXX8/
 
 Como el driver de la Base de Datos (mysql-connector-java-8.0.28.jar) se carga en forma
 dinámica, cuando se arma el FAT JAR no se lo incluye automáticamente. Para incluirlo
-hay que agregar lo en el directorio:
+hay que agregarlo en el directorio:
 
         src/main/resources/
+
+
+
+        Para ejecutar el servidor en DES:
+
+        Levantar MySQL (net start MySQL80)
+        Levantar el servidor desde IntelliJ IDEA
+        Probar si levantó desde http://localhost:8080/isalive
+        Cada vez que referesco la página tiene que actualizar la hora.

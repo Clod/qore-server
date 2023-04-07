@@ -1,8 +1,9 @@
 plugins {
-    id 'org.jetbrains.kotlin.jvm' version "$kotlin_version"
+//    id 'org.jetbrains.kotlin.jvm' version "$kotlin_version"
     id 'org.jetbrains.kotlin.plugin.serialization' version "$kotlin_version"
     id 'com.github.johnrengelman.shadow' version '7.0.0'
     id 'application'
+    id 'org.jetbrains.kotlin.jvm' version '1.7.20'
 }
 
 
@@ -38,6 +39,7 @@ dependencies {
     // salta a la m... al ejecutar
 //    implementation 'mysql:mysql-connector-java:8.0.28'
     runtimeOnly 'mysql:mysql-connector-java:8.0.28'
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
 }
 
 compileKotlin {

@@ -8,7 +8,7 @@ import io.ktor.http.*
 import io.ktor.routing.*
 import io.ktor.serialization.*
 import org.slf4j.event.Level
-import routes.customerRouting
+import routes.patientRouting
 
 
 fun main(args: Array<String>): Unit = io.ktor.server.tomcat.EngineMain.main(args)
@@ -42,11 +42,11 @@ fun Application.module() {
         method(HttpMethod.Put)
     }
 
-    registerCustomerRoutes()
+    registerPatientRoutes()
 }
 
-fun Application.registerCustomerRoutes() {
+fun Application.registerPatientRoutes() {
     routing {
-        customerRouting()
+        patientRouting()
     }
 }

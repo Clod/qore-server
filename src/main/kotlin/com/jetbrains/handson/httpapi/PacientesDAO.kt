@@ -37,7 +37,7 @@ class PacientesDAO {
         return patientsListSerial
     }
 
-    fun getSomePatients (token: String) : MutableList<PacienteSerial> {
+    fun getPatientsByLastName (token: String) : MutableList<PacienteSerial> {
 
         println("Starting getSomePatients()")
 
@@ -48,6 +48,29 @@ class PacientesDAO {
         transaction {
 
             val pacientes = Pacientes.select { Pacientes.apellido like token}
+//            patientsList = pacientes.toList() as MutableList<Paciente>
+            patientsList = Paciente.wrapRows(pacientes).toMutableList()
+        }
+        println("Ending getSomePatients()")
+
+        patientsList.map { patientsListSerial.add(PacienteSerial(it)) }
+
+        println("****************************************************************")
+
+        return patientsListSerial
+    }
+
+    fun getPatientsById (token: String) : MutableList<PacienteSerial> {
+
+        println("Starting getPatientsById()")
+
+        var patientsList = mutableListOf<Paciente>()
+        val patientsListSerial = mutableListOf<PacienteSerial>()
+
+        // https://github.com/JetBrains/Exposed/wiki/DAO#read-entity-with-a-join-to-another-table
+        transaction {
+
+            val pacientes = Pacientes.select { Pacientes.documento like token}
 //            patientsList = pacientes.toList() as MutableList<Paciente>
             patientsList = Paciente.wrapRows(pacientes).toMutableList()
         }

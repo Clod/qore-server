@@ -17,7 +17,7 @@ import java.util.*
 
 
 // Si Clod, es una extension function.
-fun Route.customerRouting() {
+fun Route.patientRouting() {
 
     // Pongo esta ruta antes de la validación contra Firebase como para poder probar fácilmente si el servidor está vivo.
     route ("/isalive") {
@@ -82,9 +82,27 @@ fun Route.customerRouting() {
 //                    status = HttpStatusCode.NotFound
 //                )
 
-            call.respond(pacientesDAO.getSomePatients("%${token}%"))
+            call.respond(pacientesDAO.getPatientsByLastName("%${token}%"))
         }
 
+        get("{dato}/{valor}") {
+
+            val dato = call.parameters["dato"]
+            val valor = call.parameters["valor"]
+
+            print("Buscando por: $dato con valor $valor " );
+
+//            val token = call.parameters["token"] ?: return@get call.respondText(
+//                "Missing or malformed id",
+//                status = HttpStatusCode.BadRequest
+//            )
+
+            if (dato.equals("Apellido"))
+                call.respond(pacientesDAO.getPatientsByLastName("%${valor}%"))
+            else
+                call.respond(pacientesDAO.getPatientsById("%${valor}%"))
+
+        }
         // Alta de paciente en la BD
         post () {
             // call.receive integrates with the Content Negotiation plugin we configured one
