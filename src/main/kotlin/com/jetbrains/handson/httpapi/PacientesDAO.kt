@@ -3,6 +3,7 @@ package com.jetbrains.handson.httpapi
 import models.Paciente
 import models.PacienteSerial
 import models.Pacientes
+import org.jetbrains.exposed.sql.and
 import org.jetbrains.exposed.sql.select
 import org.jetbrains.exposed.sql.selectAll
 import org.jetbrains.exposed.sql.transactions.transaction
@@ -15,7 +16,7 @@ import java.time.format.DateTimeFormatter
 // Entity.new { } to insert new entities
 class PacientesDAO {
 
-    fun getAllPatients () : MutableList<PacienteSerial> {
+    fun getAllPatients(): MutableList<PacienteSerial> {
 
         println("Starting getAllPatients()")
 
@@ -37,7 +38,7 @@ class PacientesDAO {
         return patientsListSerial
     }
 
-    fun getPatientsByLastName (token: String) : MutableList<PacienteSerial> {
+    fun getPatientsByLastName(token: String): MutableList<PacienteSerial> {
 
         println("Starting getSomePatients()")
 
@@ -47,7 +48,7 @@ class PacientesDAO {
         // https://github.com/JetBrains/Exposed/wiki/DAO#read-entity-with-a-join-to-another-table
         transaction {
 
-            val pacientes = Pacientes.select { Pacientes.apellido like token}
+            val pacientes = Pacientes.select { Pacientes.apellido like token }
 //            patientsList = pacientes.toList() as MutableList<Paciente>
             patientsList = Paciente.wrapRows(pacientes).toMutableList()
         }
@@ -60,7 +61,7 @@ class PacientesDAO {
         return patientsListSerial
     }
 
-    fun getPatientsById (token: String) : MutableList<PacienteSerial> {
+    fun getPatientsById(token: String): MutableList<PacienteSerial> {
 
         println("Starting getPatientsById()")
 
@@ -70,7 +71,7 @@ class PacientesDAO {
         // https://github.com/JetBrains/Exposed/wiki/DAO#read-entity-with-a-join-to-another-table
         transaction {
 
-            val pacientes = Pacientes.select { Pacientes.documento like token}
+            val pacientes = Pacientes.select { Pacientes.documento like token }
 //            patientsList = pacientes.toList() as MutableList<Paciente>
             patientsList = Paciente.wrapRows(pacientes).toMutableList()
         }
@@ -83,7 +84,27 @@ class PacientesDAO {
         return patientsListSerial
     }
 
-    fun storePatient(patient: PacienteSerial) : Int {
+    fun checkIfPatientByCountryAndId(country: String?, idAlpha: String?): Boolean {
+
+        println("Starting checkIfPatientByCountryAndId()")
+
+        var patientExists = true
+
+        // https://github.com/JetBrains/Exposed/wiki/DAO#read-entity-with-a-join-to-another-table
+        transaction {
+
+            patientExists = !Pacientes.select { (Pacientes.documento eq idAlpha) and (Pacientes.nacionalidad eq country) }.empty()
+
+            println("El paciente ya existe: $patientExists")
+        }
+        println("Ending checkIfPatientByCountryAndId()")
+
+        println("****************************************************************")
+
+        return patientExists
+    }
+
+    fun storePatient(patient: PacienteSerial): Int {
 
         var numeroPacienteCreado = 0
 
@@ -94,8 +115,12 @@ class PacientesDAO {
                 documento = patient.documento
                 nacionalidad = patient.nacionalidad
 //                fechaNacimiento = LocalDate.parse(patient.fechaNacimiento, DateTimeFormatter.ofPattern("yyyy-MM-dd"))
-                fechaNacimiento = if(patient.fechaNacimiento != null) LocalDate.parse(patient.fechaNacimiento, DateTimeFormatter.ofPattern("yyyy-MM-dd")) else null
-                fechaCreacionFicha = LocalDate.parse(patient.fechaCreacionFicha, DateTimeFormatter.ofPattern("yyyy-MM-dd"))
+                fechaNacimiento = if (patient.fechaNacimiento != null) LocalDate.parse(
+                    patient.fechaNacimiento,
+                    DateTimeFormatter.ofPattern("yyyy-MM-dd")
+                ) else null
+                fechaCreacionFicha =
+                    LocalDate.parse(patient.fechaCreacionFicha, DateTimeFormatter.ofPattern("yyyy-MM-dd"))
                 sexo = patient.sexo
                 diagnosticoPrenatal = patient.diagnosticoPrenatal
                 pacienteFallecido = patient.pacienteFallecido
@@ -104,7 +129,10 @@ class PacientesDAO {
                 diag2 = patient.diag2
                 diag3 = patient.diag3
                 diag4 = patient.diag4
-                fechaPrimerDiagnostico = if(patient.fechaPrimerDiagnostico != null) LocalDate.parse(patient.fechaPrimerDiagnostico, DateTimeFormatter.ofPattern("yyyy-MM-dd")) else null
+                fechaPrimerDiagnostico = if (patient.fechaPrimerDiagnostico != null) LocalDate.parse(
+                    patient.fechaPrimerDiagnostico,
+                    DateTimeFormatter.ofPattern("yyyy-MM-dd")
+                ) else null
                 nroHistClinicaPapel = patient.nroHistClinicaPapel
                 nroFichaDiagPrenatal = patient.nroFichaDiagPrenatal
                 comentarios = patient.comentarios
@@ -116,18 +144,22 @@ class PacientesDAO {
         return numeroPacienteCreado
     }
 
-    fun updatePatient(patient: PacienteSerial) : Int {
+    fun updatePatient(patient: PacienteSerial): Int {
 
         var numeroPacienteModificado = 0
 
         transaction {
-            numeroPacienteModificado = Pacientes.update ({ Pacientes.id eq patient.id }) {
+            numeroPacienteModificado = Pacientes.update({ Pacientes.id eq patient.id }) {
                 it[nombre] = patient.nombre
                 it[apellido] = patient.apellido
                 it[documento] = patient.documento
                 it[nacionalidad] = patient.nacionalidad
-                it[fechaNacimiento] = if (patient.fechaNacimiento != null)  LocalDate.parse(patient.fechaNacimiento, DateTimeFormatter.ofPattern("yyyy-MM-dd")) else null
-                it[fechaCreacionFicha] = LocalDate.parse(patient.fechaCreacionFicha, DateTimeFormatter.ofPattern("yyyy-MM-dd"))
+                it[fechaNacimiento] = if (patient.fechaNacimiento != null) LocalDate.parse(
+                    patient.fechaNacimiento,
+                    DateTimeFormatter.ofPattern("yyyy-MM-dd")
+                ) else null
+                it[fechaCreacionFicha] =
+                    LocalDate.parse(patient.fechaCreacionFicha, DateTimeFormatter.ofPattern("yyyy-MM-dd"))
                 it[diagnosticoPrenatal] = patient.diagnosticoPrenatal
                 it[sexo] = patient.sexo
                 it[pacienteFallecido] = patient.pacienteFallecido
@@ -136,7 +168,10 @@ class PacientesDAO {
                 it[diag2] = patient.diag2
                 it[diag3] = patient.diag3
                 it[diag4] = patient.diag4
-                it[fechaPrimerDiagnostico] = if (patient.fechaPrimerDiagnostico != null)  LocalDate.parse(patient.fechaPrimerDiagnostico, DateTimeFormatter.ofPattern("yyyy-MM-dd")) else null
+                it[fechaPrimerDiagnostico] = if (patient.fechaPrimerDiagnostico != null) LocalDate.parse(
+                    patient.fechaPrimerDiagnostico,
+                    DateTimeFormatter.ofPattern("yyyy-MM-dd")
+                ) else null
                 it[nroHistClinicaPapel] = patient.nroHistClinicaPapel
                 it[nroFichaDiagPrenatal] = patient.nroFichaDiagPrenatal
                 it[comentarios] = patient.comentarios

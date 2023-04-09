@@ -20,7 +20,7 @@ import java.util.*
 fun Route.patientRouting() {
 
     // Pongo esta ruta antes de la validación contra Firebase como para poder probar fácilmente si el servidor está vivo.
-    route ("/isalive") {
+    route("/isalive") {
         get {
             val sdf = SimpleDateFormat("dd/M/yyyy hh:mm:ss")
             val currentDate = sdf.format(Date())
@@ -32,7 +32,7 @@ fun Route.patientRouting() {
 
     // https://firebase.google.com/docs/admin/setup
 //    val serviceAccount = FileInputStream("D:\\home\\Kotlin\\ktor-http-api-sample-main\\src\\main\\resources\\cardio-gut-firebase-adminsdk-q7jz3-6c2cf52658.json")
-  System.out.println("Absolute path: " + File(".").getAbsolutePath())
+    println("Absolute path: " + File(".").getAbsolutePath())
     // val serviceAccount = FileInputStream("./build/resources/main/Firestore/cardio-gut-firebase-adminsdk-q7jz3-6c2cf52658.json")
 
 //    val options: FirebaseOptions = FirebaseOptions.Builder()
@@ -50,7 +50,7 @@ fun Route.patientRouting() {
 
     FirebaseApp.initializeApp(options)
 
-    route ("/patients") {
+    route("/patients") {
         val pacientesDAO = PacientesDAO()
 
         get {
@@ -72,6 +72,8 @@ fun Route.patientRouting() {
         }
 
         get("{token}") {
+
+            // Si puedo recuperar el token lo asigno. Si no, devuelvo error
             val token = call.parameters["token"] ?: return@get call.respondText(
                 "Missing or malformed id",
                 status = HttpStatusCode.BadRequest
@@ -87,24 +89,30 @@ fun Route.patientRouting() {
 
         get("{dato}/{valor}") {
 
-            val dato = call.parameters["dato"]
-            val valor = call.parameters["valor"]
+            val dato = call.parameters["dato"] ?: return@get call.respondText(
+                "Tiene que ser Documento o Apellido",
+                status = HttpStatusCode.BadRequest
+            )
+            val valor = call.parameters["valor"] ?: return@get call.respondText(
+                "Missing or malformed id",
+                status = HttpStatusCode.BadRequest
+            )
 
-            print("Buscando por: $dato con valor $valor " );
+            println("Buscando por: $dato con valor $valor ")
 
 //            val token = call.parameters["token"] ?: return@get call.respondText(
 //                "Missing or malformed id",
 //                status = HttpStatusCode.BadRequest
 //            )
 
-            if (dato.equals("Apellido"))
+            if (dato == "Apellido")
                 call.respond(pacientesDAO.getPatientsByLastName("%${valor}%"))
             else
                 call.respond(pacientesDAO.getPatientsById("%${valor}%"))
 
         }
         // Alta de paciente en la BD
-        post () {
+        post() {
             // call.receive integrates with the Content Negotiation plugin we configured one
             // of the previous sections. Calling it with the generic parameter Customer
             // automatically deserializes the JSON request body into a Kotlin Customer object.
@@ -113,12 +121,22 @@ fun Route.patientRouting() {
             //customerStorage.add(customer)
             print("PACIENTE ALTA: $patient")
             print("\nENVIADO POR: $token")
+
+            // Antes de dar el ALTA me fijo que no exista otro paciente del mismo país con el mismo documento
+            // Miro país por si se da la casualidad de dos pacientes de distintos países y mismo id
+            val existe = pacientesDAO.checkIfPatientByCountryAndId(patient.nacionalidad, patient.documento)
+            if (existe) {
+                println("Intentado dar de alta un paciente existente")
+                call.respondText("Paciente ya existente en la base", status = HttpStatusCode.NotAcceptable)
+                return@post
+            }
+
             val idPPac = pacientesDAO.storePatient(patient)
             call.respondText("Patient stored correctly {${idPPac.toString()}}", status = HttpStatusCode.Created)
         }
 
         // Modificación de paciente en la BD
-        put () {
+        put() {
             // call.receive integrates with the Content Negotiation plugin we configured one
             // of the previous sections. Calling it with the generic parameter Customer
             // automatically deserializes the JSON request body into a Kotlin Customer object.
