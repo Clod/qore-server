@@ -10,9 +10,28 @@ import io.ktor.serialization.*
 import org.slf4j.event.Level
 import routes.patientRouting
 
+// fun main(args: Array<String>): Unit = io.ktor.server.tomcat.EngineMain.main(args)
 
-fun main(args: Array<String>): Unit = io.ktor.server.tomcat.EngineMain.main(args)
+fun main(args: Array<String>) {
 
+    println()
+    println()
+    println()
+    println()
+    println ("**********************************************************************")
+    println ("******************* Ejecutando Q-ORE server V1.0.0 *******************")
+    println ("**********************************************************************")
+    println()
+    println()
+
+    if (System.getProperty("DEBUG") != null) {
+       println("Ejecutando en modo DEBUG")
+    } else {
+        println("Ejecutando en modo PROD")
+    }
+
+    io.ktor.server.tomcat.EngineMain.main(args)
+}
 // La referencia en application.conf
 fun Application.module() {
 

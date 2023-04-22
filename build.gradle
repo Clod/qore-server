@@ -8,7 +8,7 @@ plugins {
 
 
 group 'com.jetbrains.handson'
-version '1.0-SNAPSHOT'
+version '1.0.0-RELEASE'
 
 repositories {
     mavenCentral()
@@ -38,6 +38,10 @@ dependencies {
     // Si comento implementation y descomento runtimeOnly cuando hago un rebuild
     // salta a la m... al ejecutar
 //    implementation 'mysql:mysql-connector-java:8.0.28'
+    // Sospecho que por esto lo copia a la carpeta principal del build
+    // pero necesito que lo meta en el jar!!!
+    // Después descubrí que lo mete en el fat JAR pero expandido (o sea como
+    // clases y no como un JAR
     runtimeOnly 'mysql:mysql-connector-java:8.0.28'
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
 }
@@ -54,7 +58,8 @@ application {
 }
 
 // Descomentar lo de abajo para armar el JAR desde línea de comandos con .\gradlew shadowJar
-// NO ES CIERTO!!! NO HACE FALTA DESCOMENTARLO. EL .\gradlew shadowJar anda igual!!!
+// NO ES CIERTO!!! NO HACE FALTA DESCOMENTARLO.
+//        EL           .\gradlew shadowJar                 anda igual!!!
 // Si no, se puede armar el JAR desde la solapa de Gradle
 //shadowJar {
 //    manifest {
