@@ -1,0 +1,44 @@
+Entro al cliente:
+
+        [root@vcsinc ~]# mysql
+
+Le indico la base de datos:
+
+    MariaDB [(none)]> use qore;
+
+creo la tabla:
+
+CREATE TABLE `PACIENTES` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `nombre` varchar(30) DEFAULT NULL,
+  `apellido` varchar(30) DEFAULT NULL,
+  `documento` varchar(25) DEFAULT NULL,
+  `nacionalidad` varchar(25) DEFAULT NULL,
+  `fechanacimiento` date DEFAULT NULL,
+  `fecha_creacion_ficha` date DEFAULT NULL,
+  `sexo` char(1) DEFAULT NULL,
+  `diagnostico_prenatal` char(1) DEFAULT NULL,
+  `paciente_fallecido` char(1) DEFAULT NULL,
+  `semanas_gestacion` int DEFAULT NULL,
+  `diag1` varchar(140) DEFAULT NULL,
+  `diag2` varchar(140) DEFAULT NULL,
+  `diag3` varchar(140) DEFAULT NULL,
+  `diag4` varchar(140) DEFAULT NULL,
+  `fecha_primer_diagnostico` date DEFAULT NULL,
+  `nro_hist_clinica_papel` varchar(20) DEFAULT NULL,
+  `nro_ficha_diag_prenatal` varchar(20) DEFAULT NULL,
+  `comentarios` varchar(500) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=175 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+
+Misceláneas:
+
+Para ver cuál es el próximo valor que va a asignar el auto-increment:
+
+SHOW TABLE STATUS LIKE 'PACIENTES';
+
+y para cambiarlo
+
+ALTER TABLE PACIENTES AUTO_INCREMENT = 999;
+
